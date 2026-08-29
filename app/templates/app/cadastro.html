@@ -1,0 +1,17 @@
+{% extends "app/base.html" %}
+
+{% block titulo %}Cadastro - Cartola Manager{% endblock %}
+
+{% block conteudo %}
+    <h1>Criar conta</h1>
+
+    <div class="card">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Cadastrar</button>
+        </form>
+    </div>
+
+    <p>Já tem conta? <a href="{% url 'login' %}" style="color:#ff6b00">Entrar</a></p>
+{% endblock %}

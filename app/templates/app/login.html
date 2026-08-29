@@ -1,0 +1,21 @@
+{% extends "app/base.html" %}
+
+{% block titulo %}Entrar - Cartola Manager{% endblock %}
+
+{% block conteudo %}
+    <h1>Entrar</h1>
+
+    <div class="card">
+        {% if form.errors %}
+            <div class="mensagem erro">Usuário ou senha inválidos.</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <p>Ainda não tem conta? <a href="{% url 'cadastro' %}" style="color:#ff6b00">Cadastre-se</a></p>
+{% endblock %}
