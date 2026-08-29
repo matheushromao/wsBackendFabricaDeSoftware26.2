@@ -27,5 +27,5 @@ class AtletaEscalado(models.Model):
         unique_together = ("time", "atleta_id_cartola")
         ordering = ["-adicionado_em"]
         
-        def __str__(self):
-            return f"{self.apelido} ({self.time.nome})"
+    def __str__(self):
+        return f"{self.apelido} ({self.time.nome})"
