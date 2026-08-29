@@ -1,0 +1,20 @@
+{% extends "app/base.html" %}
+
+{% block titulo %}Excluir time - Cartola Manager{% endblock %}
+
+{% block conteudo %}
+    <h1>Excluir time</h1>
+
+    <div class="card">
+        <p style="margin-bottom:20px;">
+            Tem certeza que deseja excluir o time <strong>{{ time.nome }}</strong>?
+            Todos os atletas escalados também serão removidos.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Sim, excluir</button>
+            <a href="{% url 'home' %}" class="btn btn-secundario">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

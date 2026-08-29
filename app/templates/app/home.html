@@ -1,0 +1,57 @@
+{% extends "app/base.html" %}
+
+{% block titulo %}Meu time - Cartola Manager{% endblock %}
+
+{% block conteudo %}
+    {% if time %}
+        <h1>{{ time.nome }}</h1>
+
+        <div class="card">
+            <p style="color:#b7bcc4; margin-bottom:16px;">
+                Criado em {{ time.criado_em|date:"d/m/Y" }} &middot;
+                {{ atletas|length }} atleta{{ atletas|length|pluralize }} escalado{{ atletas|length|pluralize }}
+            </p>
+            <a href="{% url 'editar_time' time.pk %}" class="btn btn-secundario">Editar time</a>
+            <a href="{% url 'excluir_time' time.pk %}" class="btn btn-secundario">Excluir time</a>
+        </div>
+
+        <h1>Atletas escalados</h1>
+        <div class="card">
+            {% if atletas %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Atleta</th>
+                            <th>Clube</th>
+                            <th>Posição</th>
+                            <th>Preço</th>
+                            <th>Pontos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for atleta in atletas %}
+                            <tr>
+                                <td>{{ atleta.apelido }}</td>
+                                <td>{{ atleta.clube|default:"-" }}</td>
+                                <td>{{ atleta.posicao|default:"-" }}</td>
+                                <td>C$ {{ atleta.preco_cartoletas }}</td>
+                                <td>{{ atleta.pontos_num }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="color:#b7bcc4">Nenhum atleta escalado ainda.</p>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <h1>Você ainda não tem um time</h1>
+        <div class="card">
+            <p style="margin-bottom:16px; color:#b7bcc4;">
+                Crie seu time para começar a escalar atletas do Cartola FC.
+            </p>
+            <a href="{% url 'criar_time' %}" class="btn">Criar meu time</a>
+        </div>
+    {% endif %}
+{% endblock %}
