@@ -11,6 +11,7 @@
                 Criado em {{ time.criado_em|date:"d/m/Y" }} &middot;
                 {{ atletas|length }} atleta{{ atletas|length|pluralize }} escalado{{ atletas|length|pluralize }}
             </p>
+            <a href="{% url 'mercado' %}" class="btn">Escalar atletas</a>
             <a href="{% url 'editar_time' time.pk %}" class="btn btn-secundario">Editar time</a>
             <a href="{% url 'excluir_time' time.pk %}" class="btn btn-secundario">Excluir time</a>
         </div>
@@ -26,6 +27,7 @@
                             <th>Posição</th>
                             <th>Preço</th>
                             <th>Pontos</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,12 +38,22 @@
                                 <td>{{ atleta.posicao|default:"-" }}</td>
                                 <td>C$ {{ atleta.preco_cartoletas }}</td>
                                 <td>{{ atleta.pontos_num }}</td>
+                                <td>
+                                    <a href="{% url 'remover_atleta' atleta.pk %}"
+                                       class="btn btn-secundario"
+                                       style="padding:6px 12px; font-size:0.85rem;">
+                                        Remover
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <p style="color:#b7bcc4">Nenhum atleta escalado ainda.</p>
+                <p style="color:#b7bcc4">
+                    Nenhum atleta escalado ainda.
+                    <a href="{% url 'mercado' %}" style="color:#ff6b00">Ir ao mercado</a>
+                </p>
             {% endif %}
         </div>
 

@@ -1,0 +1,74 @@
+{% extends "app/base.html" %}
+
+{% block titulo %}Mercado - Cartola Manager{% endblock %}
+
+{% block conteudo %}
+    <h1>Mercado do Cartola FC</h1>
+
+    <div class="card">
+        <form method="get">
+            <label for="posicao">Filtrar por posição</label>
+            <select name="posicao" id="posicao"
+                    style="padding:10px; border-radius:6px; background:#14181f;
+                           color:#e8eaed; border:1px solid #2e3542; margin-right:8px;">
+                <option value="">Todas as posições</option>
+                {% for posicao in posicoes %}
+                    <option value="{{ posicao.id }}"
+                        {% if posicao.id|stringformat:"s" == posicao_selecionada %}selected{% endif %}>
+                        {{ posicao.nome }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="submit">Filtrar</button>
+            <a href="{% url 'home' %}" class="btn btn-secundario">Voltar ao time</a>
+        </form>
+    </div>
+
+    <div class="card">
+        {% if atletas %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atleta</th>
+                        <th>Clube</th>
+                        <th>Posição</th>
+                        <th>Preço</th>
+                        <th>Pontos</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for atleta in atletas %}
+                        <tr>
+                            <td>{{ atleta.apelido }}</td>
+                            <td>{{ atleta.clube|default:"-" }}</td>
+                            <td>{{ atleta.posicao|default:"-" }}</td>
+                            <td>C$ {{ atleta.preco }}</td>
+                            <td>{{ atleta.pontos }}</td>
+                            <td>
+                                {% if atleta.atleta_id in ja_escalados %}
+                                    <span style="color:#8b919b; font-size:0.85rem;">Já escalado</span>
+                                {% else %}
+                                    <form method="post"
+                                          action="{% url 'escalar_atleta' atleta.atleta_id %}"
+                                          style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                                style="padding:6px 12px; font-size:0.85rem;">
+                                            Escalar
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="color:#b7bcc4">
+                Nenhum atleta disponível no momento.
+                O mercado do Cartola FC pode estar fechado.
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -12,4 +12,8 @@ urlpatterns = [
     path("time/novo/", views.criar_time, name="criar_time"),
     path("time/<int:pk>/editar/", views.editar_time, name="editar_time"),
     path("time/<int:pk>/excluir/", views.excluir_time, name="excluir_time"),
+    
+    path("mercado/", views.mercado, name="mercado"),
+    path("atleta/<int:atleta_id>/escalar/", views.escalar_atleta, name="escalar_atleta"),
+    path("atleta/<int:pk>/remover/", views.remover_atleta, name="remover_atleta"),
 ]
