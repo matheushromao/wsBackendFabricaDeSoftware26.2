@@ -141,7 +141,19 @@ CREATE DATABASE cartola_manager;
 
 **5. Configure as variáveis de ambiente**
 
-Crie um arquivo `.env` na raiz do projeto (mesma pasta do `manage.py`):
+Copie o arquivo de exemplo e preencha com os seus dados:
+
+Windows:
+```bash
+copy .env.example .env
+```
+
+Linux / macOS:
+```bash
+cp .env.example .env
+```
+
+Depois edite o `.env` com as credenciais do seu PostgreSQL:
 ```
 DB_NAME=cartola_manager
 DB_USER=postgres
@@ -216,6 +228,7 @@ wsBackendFabricaDeSoftware26.2/
 ├── project/
 │   ├── settings.py
 │   └── urls.py
+├── .env.example
 ├── .gitignore
 ├── manage.py
 ├── README.md
