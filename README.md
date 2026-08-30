@@ -25,9 +25,10 @@ Projeto desenvolvido para o Workshop de Backend da Fábrica de Software 26.2.
 |---|---|
 | Python 3.13 | Linguagem |
 | Django 6.1 | Framework web |
+| PostgreSQL | Banco de dados |
+| psycopg2-binary | Driver do PostgreSQL |
 | requests | Consumo da API externa |
 | python-decouple | Variáveis de ambiente |
-| SQLite | Banco de dados |
 | HTML/CSS + Jinja | Interface |
 
 ---
@@ -101,6 +102,7 @@ a cada interação do usuário.
 
 ### Pré-requisitos
 - Python 3.13 ou superior
+- PostgreSQL
 - Git
 
 ### Passo a passo
@@ -130,17 +132,38 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Aplique as migrations**
+**4. Crie o banco de dados**
+
+No PostgreSQL, crie um banco para a aplicação:
+```sql
+CREATE DATABASE cartola_manager;
+```
+
+**5. Configure as variáveis de ambiente**
+
+Crie um arquivo `.env` na raiz do projeto (mesma pasta do `manage.py`):
+```
+DB_NAME=cartola_manager
+DB_USER=postgres
+DB_PASSWORD=sua_senha
+DB_HOST=127.0.0.1
+DB_PORT=5432
+```
+
+O arquivo `.env` está no `.gitignore` e não é versionado, mantendo as
+credenciais fora do repositório.
+
+**6. Aplique as migrations**
 ```bash
 python manage.py migrate
 ```
 
-**5. (Opcional) Crie um superusuário para acessar o admin**
+**7. (Opcional) Crie um superusuário para acessar o admin**
 ```bash
 python manage.py createsuperuser
 ```
 
-**6. Rode o servidor**
+**8. Rode o servidor**
 ```bash
 python manage.py runserver
 ```
@@ -207,6 +230,10 @@ wsBackendFabricaDeSoftware26.2/
 `app/service/cartola.py`. As views não conhecem detalhes de rede, JSON ou timeout:
 elas pedem atletas e recebem objetos Python prontos.
 
+**Credenciais em variáveis de ambiente** — as configurações do banco ficam no
+`.env`, lidas com `python-decouple`. Além de manter senhas fora do repositório,
+isso permitiu trocar o banco de dados sem alterar o código da aplicação.
+
 **Dados do atleta copiados para o banco** — ao escalar, os dados vindos da API
 são gravados localmente. Isso faz a home carregar sem depender da API e mantém
 o time visível mesmo se o Cartola FC estiver fora do ar.
@@ -217,3 +244,11 @@ As telas de confirmação usam formulário com CSRF token.
 **Filtro por dono em todas as consultas** — views usam
 `get_object_or_404(..., usuario=request.user)`, impedindo que um usuário acesse
 ou modifique o time de outro alterando o ID na URL.
+
+---
+
+## Autor
+
+**Matheus Romão**
+
+[LinkedIn](https://www.linkedin.com/in/matheushromao)
